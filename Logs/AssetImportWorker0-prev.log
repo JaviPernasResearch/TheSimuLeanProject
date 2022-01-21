@@ -91,3 +91,4 @@ Received Import Request.
 Start importing Assets/UnitySimuLean/UnityAssembler.cs using Guid(5214b98ebd082c243ac49ddfe6398a8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf760d80b97fa8ee3ea8e29fb50d26e2') in 0.044291 seconds
   Import took 0.045988 seconds .
 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
