@@ -2,6 +2,9 @@
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Simulates a demand process where mean Time Between Arrivals (BTA) varies as to simulation time.
+    /// </summary>
     public class DemandProcess : DoubleProvider
     {
         const double initTBA = 120.0;

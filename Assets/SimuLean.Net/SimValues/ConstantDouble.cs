@@ -1,5 +1,8 @@
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a constant distribution.
+    /// </summary>
     public class ConstantDouble : DoubleRandomProcess, DoubleProvider
     {
         double value = 1.0;

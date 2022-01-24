@@ -1,5 +1,8 @@
 ﻿namespace SimuLean
 {
+    /// <summary>
+    /// Models arrival orders (lots of items) of the provider source.
+    /// </summary>
     public class OrderArrival : Eventcs
     {
         ProviderSource source;

@@ -1,5 +1,8 @@
 ﻿namespace SimuLean
 {
+    /// <summary>
+    /// Models a source that releases an new item whenever output turns available.
+    /// </summary>
     public class InfiniteSource : Element, Eventcs
     {
         Item lastItem;
@@ -20,7 +23,7 @@
         public override bool Unblock()
         {
 
-            if (this.GetOutput().sendItem(lastItem, this))
+            if (this.GetOutput().SendItem(lastItem, this))
             {
                 lastItem = CreateItem();
                 numberIterms++;
@@ -59,9 +62,13 @@
                 lastItem = CreateItem();
                 numberIterms++;
             }
-            while (this.GetOutput().sendItem(lastItem, this));
+            while (this.GetOutput().SendItem(lastItem, this));
         }
 
+        /// <summary>
+        /// Creates new item.
+        /// </summary>
+        /// <returns>The item created.</returns>
         Item CreateItem()
         {
             Item nItem = new Item(simClock.GetSimulationTime());

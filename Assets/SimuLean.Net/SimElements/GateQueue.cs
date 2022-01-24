@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// A Gate Queue is a normal queue that simulates manufacturing orders.
+    /// </summary>
     public class GateQueue : Element
     {
         int capacity;
@@ -15,8 +18,6 @@ namespace SimuLean
         {
             this.capacity = capacity;
             itemsQ = new Queue<Item>(capacity);
-
-            SimCosts.AddCost(SimCosts.storeCapacityCost * capacity);
         }
 
         public override void Start()
@@ -26,6 +27,10 @@ namespace SimuLean
             pendingRelease = 0;
         }
 
+        /// <summary>
+        /// Releases <paramref name="quantity"/> number of manufacturing orders.
+        /// </summary>
+        /// <param name="quantity"></param>
         public void Release(int quantity)
         {
             pendingRelease += quantity;
@@ -34,6 +39,9 @@ namespace SimuLean
 
         }
 
+        /// <summary>
+        /// Do all pending manufacturing orders if possible.
+        /// </summary>
         void DoTransfers()
         {
             Item theItem;
@@ -45,7 +53,7 @@ namespace SimuLean
                 pendingRelease--;
                 currentItems--;
 
-                if (GetOutput().sendItem(theItem, this))
+                if (GetOutput().SendItem(theItem, this))
                 {
                     itemsQ.Dequeue();
                     vElement.ReportState("Exit");

@@ -3,6 +3,9 @@ using System.Collections;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models Forklift behaviour absed on a single server.
+    /// </summary>
     public class Forklift : Element, WorkStation
     {
         ServerProcess theProcess;
@@ -54,7 +57,7 @@ namespace SimuLean
 
                 foreach (Item it in itemsStoraged)
                 {
-                    if (GetOutput().sendItem(it, this))
+                    if (GetOutput().SendItem(it, this))
                     {
                         itemsToRemove.Add(it);
                         currentItems--;
@@ -81,7 +84,7 @@ namespace SimuLean
             theProcess.state = 0;
             readyToLeave = false;
             theProcess.ClearList();
-            GetInput().notifyAvaliable(this);
+            GetInput().NotifyAvaliable(this);
 
             return true;
         }
@@ -141,7 +144,7 @@ namespace SimuLean
         {
             if (isReceiving == true)
             {
-                if (!GetInput().notifyAvaliable(this))
+                if (!GetInput().NotifyAvaliable(this))
                 {
                     Item myItems = null;
 
@@ -172,7 +175,7 @@ namespace SimuLean
                 foreach (Item it in theProcess.GetItems())
                 {
 
-                    if (GetOutput().sendItem(it, this))
+                    if (GetOutput().SendItem(it, this))
                     {
                         itemsToRemove.Add(it);
                         currentItems--;
@@ -192,7 +195,7 @@ namespace SimuLean
                 readyToLeave = false;
                 theProcess.ClearList();
                 theProcess.state = 0;
-                GetInput().notifyAvaliable(this);
+                GetInput().NotifyAvaliable(this);
 
                 return;
             }
@@ -207,7 +210,7 @@ namespace SimuLean
 
         public void PickItem() //Called once the forklift arrives at the origin
         {
-            GetInput().notifyAvaliable(this);
+            GetInput().NotifyAvaliable(this);
 
         }
 

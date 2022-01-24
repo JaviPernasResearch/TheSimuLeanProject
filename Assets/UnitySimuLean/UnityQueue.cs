@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for ItemsQueue Element.
+    /// </summary>
     public class UnityQueue : SElement, VElement
     {
 
@@ -87,12 +90,6 @@ namespace UnitySimuLean
             }
 
             StartSim();
-        }
-
-        //UI Methods
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

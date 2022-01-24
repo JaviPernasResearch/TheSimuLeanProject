@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for ScheduleSource Element.
+    /// </summary>
     public class UnityScheduleSource : SElement, VElement
     {
-
         ScheduleSource theSource;
 
         public GameObject itemPrefab;
@@ -80,12 +82,6 @@ namespace UnitySimuLean
             }
 
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

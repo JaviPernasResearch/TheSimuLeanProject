@@ -1,5 +1,8 @@
 ﻿namespace SimuLean
 {
+    /// <summary>
+    /// Class that simulates 1 to 1 links (simple links) between elements.
+    /// </summary>
     public class SimpleLink : Link
     {
         Element origin;
@@ -7,7 +10,7 @@
 
         Link thislink;
 
-        static public void createLink(Element origin, Element destination)
+        static public void CreateLink(Element origin, Element destination)
         {
             SimpleLink theLink = new SimpleLink(origin, destination);
 
@@ -23,7 +26,7 @@
 
         }
 
-        bool Link.sendItem(Item theItem, Element source)
+        bool Link.SendItem(Item theItem, Element source)
         {
             if (destination.Receive(theItem))
             {
@@ -35,7 +38,7 @@
             }
         }
 
-        bool Link.notifyAvaliable(Element source)
+        bool Link.NotifyAvaliable(Element source)
         {
             return origin.Unblock();
         }

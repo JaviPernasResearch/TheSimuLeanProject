@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for simple Assembler (1 server) Element.
+    /// </summary>
     public class UnityAssembler : SElement, VElement
     {
 
@@ -99,12 +102,5 @@ namespace UnitySimuLean
 
             StartSim();
         }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
-        }
-
     }
 }

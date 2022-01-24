@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for MultiLink Element.
+    /// </summary>
     public class UnityMultiLink : MonoBehaviour
     {
 
@@ -18,20 +21,19 @@ namespace UnitySimuLean
             UnitySimClock.instance.mLinks.Add(this);
         }
 
-        void Update()
-        {
-        }
-
+        /// <summary>
+        /// Sets inputs and outputs on MultiLink connections.
+        /// </summary>
         public void ConnectSim()
         {
             mLink = new MultiLink(mode);
             foreach (SElement sElem in inputs)
             {
-                mLink.connectInput(sElem.GetElement());
+                mLink.ConnectInput(sElem.GetElement());
             }
             foreach (SElement sElem in outputs)
             {
-                mLink.connectOutput(sElem.GetElement());
+                mLink.ConnectOutput(sElem.GetElement());
             }
         }
     }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Standard queue with FIFO rule.
+    /// </summary>
     public class ItemsQueue : Element
     {
         int capacity;
@@ -39,15 +42,14 @@ namespace SimuLean
                 currentItems--;
                 vElement.ReportState("Exit");
 
-                GetOutput().sendItem(theItem, this);
+                GetOutput().SendItem(theItem, this);
 
-                GetInput().notifyAvaliable(this);
+                GetInput().NotifyAvaliable(this);
                 return true;
             }
             else if (capacity == 0)
             {
-
-                return GetInput().notifyAvaliable(this);
+                return GetInput().NotifyAvaliable(this);
             }
             else
             {
@@ -59,7 +61,7 @@ namespace SimuLean
         {
             if (currentItems < capacity)
             {
-                if (!GetOutput().sendItem(theItem, this))
+                if (!GetOutput().SendItem(theItem, this))
                 {
                     itemsQ.Enqueue(theItem);
                     currentItems++;
@@ -69,14 +71,7 @@ namespace SimuLean
             }
             else if (capacity == 0)
             {
-                if (GetOutput().sendItem(theItem, this))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return GetOutput().SendItem(theItem, this);
             }
             else
             {

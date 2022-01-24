@@ -52,7 +52,7 @@ namespace SimuLean
 
                 foreach (Item it in itemsStoraged)
                 {
-                    if (GetOutput().sendItem(it, this))
+                    if (GetOutput().SendItem(it, this))
                     {
                         itemsToRemove.Add(it);
                         currentItems--;
@@ -78,7 +78,7 @@ namespace SimuLean
 
             theProcess.state = 0;
             theProcess.ClearList();
-            GetInput().notifyAvaliable(this);
+            GetInput().NotifyAvaliable(this);
 
             return true;
         }
@@ -129,7 +129,7 @@ namespace SimuLean
             foreach (Item it in theProcess.GetItems())
             {
 
-                if (GetOutput().sendItem(it, this))
+                if (GetOutput().SendItem(it, this))
                 {
                     itemsToRemove.Add(it);
                     currentItems--;
@@ -148,7 +148,7 @@ namespace SimuLean
             }
 
             theProcess.ClearList();
-            GetInput().notifyAvaliable(this);
+            GetInput().NotifyAvaliable(this);
 
             return;
 
@@ -161,7 +161,7 @@ namespace SimuLean
 
         public void PickItem() //Called once the operator arrives at the origin
         {
-            GetInput().notifyAvaliable(this);
+            GetInput().NotifyAvaliable(this);
 
         }
 

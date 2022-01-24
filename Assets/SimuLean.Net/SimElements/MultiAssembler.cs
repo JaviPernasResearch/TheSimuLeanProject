@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a multiserver element fed by constrainedInput queues.
+    /// </summary>
     public class MultiAssembler : Element, WorkStation, ArrivalListener
     {
         Queue<ServerProcess> idleProccesses;
@@ -41,8 +44,6 @@ namespace SimuLean
             {
                 inputs[i] = new ConstrainedInput(requirements[i], this, i, this.name + ".Input" + i, simClock);
             }
-
-            SimCosts.AddCost(SimCosts.assemblerCapacityCost * capacity);
         }
 
         public override void Start()
@@ -68,11 +69,20 @@ namespace SimuLean
             completedItems = 0;
         }
 
+        /// <summary>
+        /// Returns ConstrainedInput on port <paramref name="i"/>.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public ConstrainedInput GetInput(int i)
         {
             return inputs[i];
         }
 
+        /// <summary>
+        /// Returns total number of ConstrainedInputs.
+        /// </summary>
+        /// <returns></returns>
         public int GetInputsCount()
         {
             return inputs.Length;
@@ -114,7 +124,7 @@ namespace SimuLean
                 theProcess = completed.Peek();
                 theItem = theProcess.theItem;
 
-                if (GetOutput().sendItem(theItem, this))
+                if (GetOutput().SendItem(theItem, this))
                 {
 
                     completed.Dequeue();
@@ -222,9 +232,6 @@ namespace SimuLean
 
                     theProcess.lastDelay = thisDelay;
                     simClock.ScheduleEvent(theProcess, thisDelay);
-                    SimCosts.AddCost(SimCosts.processingCost);
-
-
                 }
             }
         }
@@ -248,7 +255,7 @@ namespace SimuLean
 
             Debug.Log("Process completed ");
 
-            if (GetOutput().sendItem(theItem, this))
+            if (GetOutput().SendItem(theItem, this))
             {
                 Debug.Log("Assembler Sent Item ");
 

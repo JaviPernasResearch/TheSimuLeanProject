@@ -2,6 +2,9 @@
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a basic sink that destroys arriving items.
+    /// </summary>
     public class Sink : Element
     {
         int numberIterms;

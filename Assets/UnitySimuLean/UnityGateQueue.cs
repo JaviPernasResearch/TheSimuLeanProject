@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for GateQueue Element.
+    /// </summary>
     public class UnityGateQueue : SElement, VElement
     {
         public string name = "GateQueue";
@@ -154,12 +157,6 @@ namespace UnitySimuLean
             }
 
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

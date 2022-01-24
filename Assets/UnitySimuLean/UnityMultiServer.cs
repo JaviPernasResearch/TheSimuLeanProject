@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for MultiServer (infinite servers) Element.
+    /// </summary>
     public class UnityMultiServer : SElement, VElement
     {
 
@@ -21,10 +24,6 @@ namespace UnitySimuLean
         public float separation = 1f;
         Vector3 odVector;
 
-        //UI
-        public Text capacityInputField;
-        public Dropdown modelType;
-
         //Animation
         public Animator serverAnimator;
 
@@ -36,9 +35,6 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            if (capacityInputField != null)
-                capacity = int.Parse(capacityInputField.text);
-
             cycleTime = new PoissonProcess[capacity];
             for (int i = 0; i < capacity; i++)
             {
@@ -57,11 +53,6 @@ namespace UnitySimuLean
             if (itemPosition == null)
             {
                 itemPosition = transform;
-            }
-
-            if (capacityInputField != null)
-            {
-                theWorkstation.SetCapacity(int.Parse(capacityInputField.text));
             }
 
             theWorkstation.Start();
@@ -155,12 +146,6 @@ namespace UnitySimuLean
             }
 
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

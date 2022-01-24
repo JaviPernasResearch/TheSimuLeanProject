@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models MultiAssemble input queue to manage receptions.
+    /// </summary>
     public class ConstrainedInput : Element
     {
         int capacity;
@@ -38,7 +41,7 @@ namespace SimuLean
                 wholeItems.Enqueue(itemsQ.Dequeue());
                 currentItems--;
 
-                GetInput().notifyAvaliable(this);
+                GetInput().NotifyAvaliable(this);
             }
 
             return wholeItems;

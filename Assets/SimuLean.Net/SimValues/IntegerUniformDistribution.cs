@@ -1,5 +1,8 @@
 ﻿namespace SimuLean
 {
+    /// <summary>
+    /// Models a discrete uniform distribution.
+    /// </summary>
     public class IntegerUniformDistribution : IntegerProvider
     {
         int min, max;

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for InfiniteSource Element.
+    /// </summary>
     public class UnityInfinitySource : SElement, VElement
     {
 
@@ -67,12 +70,6 @@ namespace UnitySimuLean
         public override void RestartSim()
         {
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

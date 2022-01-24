@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a source that creates items based on external order (GUI, Socket...)
+    /// </summary>
     public class ProviderSource : Element
     {
         public bool useSocket = false;
@@ -28,8 +31,6 @@ namespace SimuLean
         public override void Start()
         {
             numberIterms = 0;
-            totPendingItems = 0;
-            //totOrders = 0;
 
             blockedItem = null;
         }
@@ -57,7 +58,7 @@ namespace SimuLean
             while (totPendingItems > 0 && quantity > 0)
             {
                 newItem = CreateItem();
-                if (!GetOutput().sendItem(newItem, this))
+                if (!GetOutput().SendItem(newItem, this))
                 {
                     blockedItem = newItem;
                     break;
@@ -85,7 +86,7 @@ namespace SimuLean
                 blockedItem = null;
             }
 
-            if (!GetOutput().sendItem(newItem, this))
+            if (!GetOutput().SendItem(newItem, this))
             {
                 blockedItem = newItem;
                 //break;

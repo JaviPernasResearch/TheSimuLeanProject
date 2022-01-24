@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a costumer sink, which is led by a demand process. Accumulates pending orders and ship product lots.
+    /// </summary>
     public class CustomerSink : Element, Eventcs
     {
         static int truckCapacity = 10;
@@ -31,8 +34,6 @@ namespace SimuLean
             demand = new UniformDistribution(5.0, 10.0);
 
             itemsQ = new Queue<Item>();
-
-            SimCosts.AddCost(SimCosts.storeCapacityCost * capacity);
         }
 
         public int GetNumberItems()
@@ -102,19 +103,12 @@ namespace SimuLean
             {
                 itemsContainer.AddItem(itemsQ.Dequeue());
                 numberItems--;
-
-                SimCosts.AddRevenue(SimCosts.salePrice);
             }
 
             vElement.UnloadItem(itemsContainer);
             pendingOrders -= q;
             totalShipments += q;
             totalTrucks++;
-
-            if (q > 0)
-            {
-                SimCosts.AddCost(SimCosts.shipmentCost);
-            }
         }
 
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for Transporter (1DoF crane) Element.
+    /// </summary>
     public class SimpleTransporter : SElement, VElement
     {
 
@@ -127,12 +130,6 @@ namespace UnitySimuLean
             }
 
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

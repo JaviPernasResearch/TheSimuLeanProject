@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for MultiAssembler (infinite servers) Element.
+    /// </summary>
     public class UnityMultiAssembler : SElement, VElement
     {
         public int capacity = 1;
@@ -24,10 +27,6 @@ namespace UnitySimuLean
         public float separation = 0f;
 
         MultiAssembler myMultiAssembler;
-
-        //UI
-        public Text capacityInputField;
-        public Dropdown modelType;
 
         //Animation
         public Animator serverAnimator;
@@ -61,7 +60,7 @@ namespace UnitySimuLean
 
             for (int i = 0; i < myInputs.Length; i++)
             {
-                SimpleLink.createLink(myInputs[i].GetElement(), myMultiAssembler.GetInput(i));
+                SimpleLink.CreateLink(myInputs[i].GetElement(), myMultiAssembler.GetInput(i));
             }
 
             base.ConnectSim();
@@ -69,9 +68,6 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            if (capacityInputField != null)
-                capacity = int.Parse(capacityInputField.text);
-
             myMultiAssembler = new MultiAssembler(capacity, requirements, new PoissonProcess(meanDelay), name, UnitySimClock.instance.clock);
 
             myMultiAssembler.vElement = this;
@@ -79,11 +75,6 @@ namespace UnitySimuLean
 
         override public void StartSim()
         {
-            if (capacityInputField != null)
-            {
-                myMultiAssembler.SetCapacity(int.Parse(capacityInputField.text));
-            }
-
             myMultiAssembler.Start();
         }
 
@@ -172,11 +163,5 @@ namespace UnitySimuLean
 
             StartSim();
         }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
-        }
-    }
+   }
 }

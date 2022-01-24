@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for ProviderSource Element.
+    /// </summary>
     public class UnityProvider : SElement, VElement
     {
         public string name = "Provider";
@@ -19,7 +22,6 @@ namespace UnitySimuLean
 
         ProviderSource theProviderSource;
 
-        //UI
         private int totalOrders;
 
         void Start()
@@ -43,8 +45,6 @@ namespace UnitySimuLean
 
             totalOrders += q;
             theProviderSource.Order(q);
-
-            SimCosts.AddCost(SimCosts.orderCost + SimCosts.purchaseCost * q);
         }
 
         override public void InitializeSim()
@@ -99,12 +99,6 @@ namespace UnitySimuLean
         public override void RestartSim()
         {
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return GetElement().GetName() + System.Environment.NewLine + "Pedidos realizados: " + totalOrders;
         }
     }
 }

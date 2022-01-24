@@ -4,6 +4,9 @@ using System.IO;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a source that creates items based on schedule read from file.
+    /// </summary>
     class ScheduleSource : Element, Eventcs
     {
         Item lastItem;
@@ -34,7 +37,7 @@ namespace SimuLean
             if (itemsInQueue.Count > 0)
             {
                 theItem = itemsInQueue.Peek();
-                if (this.GetOutput().sendItem(theItem, this))
+                if (this.GetOutput().SendItem(theItem, this))
                 {
                     itemsInQueue.Dequeue();
                     ScheduleNext();
@@ -67,7 +70,7 @@ namespace SimuLean
         void Eventcs.Execute()
         {
 
-            if (this.GetOutput().sendItem(lastItem, this))
+            if (this.GetOutput().SendItem(lastItem, this))
             {
                 ScheduleNext();
             }

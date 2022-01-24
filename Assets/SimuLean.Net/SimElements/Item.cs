@@ -2,6 +2,9 @@
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Base class for simulation items.
+    /// </summary>
     public class Item
     {
         static int ITEM_NUMBER = 0;

@@ -5,9 +5,12 @@ using UnityEngine.AI;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for Operator Element. UnityOperator uses Unity NavMesh and Animator to perform laoding and unloading animations.
+    /// </summary>
+    [RequireComponent(typeof(NavMeshAgent))]
     public class UnityOperator : SElement, VElement
     {
-
         public Animator anim;
         NavMeshAgent agent;
         Operator theOperator;
@@ -69,7 +72,7 @@ namespace UnitySimuLean
             start = false;
             isOff = false;
 
-            anim.SetBool("grab", false);
+            anim.SetBool("load", false);
             anim.SetBool("idle", false);
 
             agent.SetDestination(newPosition.position);
@@ -89,11 +92,11 @@ namespace UnitySimuLean
 
             if (station == 0)
             {
-                anim.CrossFade("GrabObject", loadTime);
+                anim.CrossFade("LoadObject", loadTime);
             }
             else if (station == 1)
             {
-                anim.CrossFade("LeaveObject", loadTime);
+                anim.CrossFade("UnloadObject", loadTime);
             }
             do
             {
@@ -191,12 +194,6 @@ namespace UnitySimuLean
         public override void RestartSim()
         {
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
         }
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for CustomerSink Element.
+    /// </summary>
     public class UnityCustomer : SElement, VElement
     {
         public bool automaticDemand = true;
@@ -46,7 +49,6 @@ namespace UnitySimuLean
                 double deltaT = UnitySimClock.instance.clock.GetSimulationTime() - lastSimTime;
                 if (deltaT > 0)
                 {
-                    SimCosts.AddCost(deltaT * SimCosts.pendingOrderUnitCost * theCustomerSink.GetPendingOrders());
                     lastSimTime = UnitySimClock.instance.clock.GetSimulationTime();
                 }
 
@@ -167,14 +169,6 @@ namespace UnitySimuLean
             }
 
             StartSim();
-        }
-
-        //UI
-        public override string GetReport()
-        {
-            return GetElement().GetName() + System.Environment.NewLine + "Pedidos recibidos: " + theCustomerSink.GetTotalOrders()
-                + System.Environment.NewLine + "Pedidos completados: " + theCustomerSink.GetTotalShipments()
-                + System.Environment.NewLine + "Camiones enviados: " + theCustomerSink.GetTotalTrucks();
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿namespace SimuLean
 {
+    /// <summary>
+    /// Models a continuous uniform distribution.
+    /// </summary>
     public class UniformDistribution : DoubleRandomProcess, DoubleProvider
     {
         double min, width;

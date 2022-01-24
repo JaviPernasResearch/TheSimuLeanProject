@@ -2,6 +2,9 @@
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Class that simulates a multiple connection between elements.
+    /// </summary>
     public class MultiLink : Link
     {
         List<Element> origins = new List<Element>();
@@ -11,10 +14,14 @@ namespace SimuLean
 
         Link thislink;
 
+        /// <summary>
+        /// Defines routing strategy:
+        /// <list>
+        /// <item>0 - First Available</item>
+        /// <item>1 - Shortest Queue</item>
+        ///</list>
+        /// </summary>
         int mode = 0;
-        // Modes:
-        //		0 - First avaliable
-        //		1 - Shortest queue
 
         public MultiLink(int mode)
         {
@@ -22,33 +29,44 @@ namespace SimuLean
             this.mode = mode;
         }
 
-        public void connectInput(Element theInput)
+        /// <summary>
+        /// Adds <paramref name="theInput"/>  to multilink origins and sets multilink as output of <paramref name="theInput"/>.
+        /// </summary>
+        /// <param name="theInput"></param>
+        public void ConnectInput(Element theInput)
         {
             origins.Add(theInput);
             theInput.SetOutput(this);
         }
 
-        public void connectOutput(Element theOutput)
+        /// <summary>
+        /// Adds <paramref name="theOutput"/> element to multilink destinations and sets multilink as input of <paramref name="theOutput"/>.
+        /// </summary>
+        /// <param name="theOutput"></param>
+        public void ConnectOutput(Element theOutput)
         {
             destinations.Add(theOutput);
             theOutput.SetInput(this);
         }
 
-        public void reset()
+        /// <summary>
+        /// Resets multilink inputs and outputs.
+        /// </summary>
+        public void Reset()
         {
             origins.Clear();
             destinations.Clear();
             blockedTransfers.Clear();
         }
 
-        public void start()
+        public void Start()
         {
             blockedTransfers.Clear();
         }
 
-        bool Link.sendItem(Item theItem, Element source)
+        bool Link.SendItem(Item theItem, Element source)
         {
-            int iDestiny = selectOutput(theItem);
+            int iDestiny = SelectOutput(theItem);
             if (iDestiny < 0)
             {
                 blockedTransfers.Add(source);
@@ -65,7 +83,7 @@ namespace SimuLean
             }
         }
 
-        bool Link.notifyAvaliable(Element source)
+        bool Link.NotifyAvaliable(Element source)
         {
             foreach (Element orig in blockedTransfers)
             {
@@ -89,19 +107,29 @@ namespace SimuLean
             return false;
         }
 
-        int selectOutput(Item theItem)
+        /// <summary>
+        /// Returns port number according to MultiLink routing strategy (mode).
+        /// </summary>
+        /// <param name="theItem"></param>
+        /// <returns></returns>
+        int SelectOutput(Item theItem)
         {
             switch (mode)
             {
                 case 0:
-                    return firstAvaliable(theItem);
+                    return FirstAvaliable(theItem);
                 default:
-                    return firstAvaliable(theItem);
+                    return FirstAvaliable(theItem);
             }
 
         }
 
-        int firstAvaliable(Item theItem)
+        /// <summary>
+        /// Returns element by FIFO dispatch rule.
+        /// </summary>
+        /// <param name="theItem"></param>
+        /// <returns></returns>
+        int FirstAvaliable(Item theItem)
         {
             int i = 0;
             foreach (Element output in destinations)
@@ -113,5 +141,15 @@ namespace SimuLean
             }
             return -1;
         }
+
+        //Template for new routing strategies
+        //Set up and add to "SelectOutput" switch.
+        //int MethodName(Item theItem)
+        //{
+        //    Decision Strategy.
+        //      return port number;
+        //    else
+        //      return -1;
+        //}
     }
 }

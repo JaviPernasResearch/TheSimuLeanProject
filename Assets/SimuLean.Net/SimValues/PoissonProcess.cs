@@ -2,6 +2,9 @@
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a poisson process.
+    /// </summary>
     public class PoissonProcess : DoubleRandomProcess, DoubleProvider
     {
         double mean;

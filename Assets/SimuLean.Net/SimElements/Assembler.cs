@@ -11,6 +11,9 @@ using UnityEngine;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models single assembler element.
+    /// </summary>
     public class Assembler : Element, WorkStation
     {
         ServerProcess theServer;
@@ -60,14 +63,14 @@ namespace SimuLean
         {
             if (theServer.state == 2)
             {
-                if (GetOutput().sendItem(theServer.theItem, this))
+                if (GetOutput().SendItem(theServer.theItem, this))
                 {
 
                     this.SetType(0);
                     theServer.state = 0;
                     theServer.theItem = null;
                     theServer.ClearList();
-                    GetInput().notifyAvaliable(this);
+                    GetInput().NotifyAvaliable(this);
                     theItem = null;
 
                     itemsCompleted++;
@@ -116,11 +119,11 @@ namespace SimuLean
                     theServer.theItem = theItem;
 
                     delay = this.randomTimes.NextValue();
-                    theServer.lastDelay = delay; //For SimpleTransporter
+                    theServer.lastDelay = delay;
                     simClock.ScheduleEvent(theServer, delay);
                 }
                 else
-                    this.GetInput().notifyAvaliable(this);
+                    this.GetInput().NotifyAvaliable(this);
 
                 return true;
             }
@@ -135,15 +138,15 @@ namespace SimuLean
                 ArrayList itemsStoraged = theServer.GetItems();
 
                 theItem = (Item)itemsStoraged[0];
-                theServer.loadTime = Time.time; // SimpleTransporter
+                theServer.loadTime = Time.time;
                 theItem.vItem = vElement.GenerateItem(theItem.GetId());
 
-                for (int i = 0; i < itemsStoraged.Count; i++)  //Saving items setting the first one as container (previously ordered)
+                for (int i = 0; i < itemsStoraged.Count; i++) 
                 {
                     theItem.AddItem((Item)itemsStoraged[i]);
                 }
 
-                if (GetOutput().sendItem(theItem, this))
+                if (GetOutput().SendItem(theItem, this))
                 {
 
                     this.SetType(0);
@@ -154,7 +157,7 @@ namespace SimuLean
 
                     itemsCompleted++;
 
-                    GetInput().notifyAvaliable(this);
+                    GetInput().NotifyAvaliable(this);
                 }
                 else
                 {
@@ -163,7 +166,7 @@ namespace SimuLean
                     theServer.ClearList();
                 }
             }
-            else if (!this.GetInput().notifyAvaliable(this))
+            else if (!this.GetInput().NotifyAvaliable(this))
             {
                 simClock.ScheduleEvent(theServer, 2);
             }

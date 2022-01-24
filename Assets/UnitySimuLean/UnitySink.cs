@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace UnitySimuLean
 {
+    /// <summary>
+    /// Unity Component for Sink Element.
+    /// </summary>
     public class UnitySink : SElement, VElement
     {
 
@@ -60,12 +63,5 @@ namespace UnitySimuLean
         {
             StartSim();
         }
-
-        //UI
-        public override string GetReport()
-        {
-            return null;
-        }
-
     }
 }

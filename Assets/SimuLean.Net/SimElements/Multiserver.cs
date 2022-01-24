@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace SimuLean
 {
+    /// <summary>
+    /// Models a multiserver workstation.
+    /// </summary>
     public class MultiServer : Element, WorkStation
     {
         Queue<ServerProcess> idleProccesses;
@@ -25,8 +28,6 @@ namespace SimuLean
             this.name = name;
 
             this.capacity = randomTimes.Length;
-
-            SimCosts.AddCost(SimCosts.workstationsCapacityCost * randomTimes.Length);
         }
 
         public override void Start()
@@ -69,14 +70,14 @@ namespace SimuLean
                 theProcess = completed.Peek();
                 theItem = theProcess.theItem;
 
-                if (GetOutput().sendItem(theItem, this))
+                if (GetOutput().SendItem(theItem, this))
                 {
                     completed.Dequeue();
                     idleProccesses.Enqueue(theProcess);
                     currentItems--;
                     vElement.ReportState("Exit");
 
-                    GetInput().notifyAvaliable(this);
+                    GetInput().NotifyAvaliable(this);
                     return true;
                 }
                 else
@@ -125,12 +126,12 @@ namespace SimuLean
 
             workInProgress.Remove(theProcess);
 
-            if (GetOutput().sendItem(theItem, this))
+            if (GetOutput().SendItem(theItem, this))
             {
                 idleProccesses.Enqueue(theProcess);
                 currentItems--;
                 vElement.ReportState("Exit");
-                GetInput().notifyAvaliable(this);
+                GetInput().NotifyAvaliable(this);
 
             }
             else
