@@ -47,6 +47,7 @@ namespace UnitySimuLean
         void Start()
         {
             updateTime = new Timer();
+            simOn = true;
         }
 
         void Update()
