@@ -35,12 +35,12 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         override public void InitializeSim()
         {
-            theForklift = new Forklift(name, UnitySimClock.instance.clock, capacity);
+            theForklift = new Forklift(name, UnitySimClock.Instance.clock, capacity);
 
             theForklift.vElement = this;
 

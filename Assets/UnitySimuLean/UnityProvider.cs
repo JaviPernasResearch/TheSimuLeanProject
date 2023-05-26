@@ -26,7 +26,7 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         // Update is called once per frame
@@ -49,7 +49,7 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            theProviderSource = new ProviderSource(useSocket, name, UnitySimClock.instance.clock, minTime, maxTime);
+            theProviderSource = new ProviderSource(useSocket, name, UnitySimClock.Instance.clock, minTime, maxTime);
 
             theProviderSource.vElement = this;
         }

@@ -1,0 +1,13 @@
+
+ Element: Queue Content: 5
+
+ Element: Sink Input: 41
+
+ Element: Queue Content: 10
+
+ Element: Sink Input: 55
+Instance,Element,Variable,Value
+0,Queue,Content,5
+0,Sink,Input,51
+1,Queue,Content,10
+1,Sink,Input,49

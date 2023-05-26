@@ -1,9 +1,7 @@
 ﻿using SimuLean;
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UnitySimuLean
 {
@@ -16,26 +14,74 @@ namespace UnitySimuLean
     /// </summary>
     public class UnitySimClock : MonoBehaviour
     {
-        static public UnitySimClock instance;
+        private static UnitySimClock instance;
+        public static UnitySimClock Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    UnitySimClock.instance = FindObjectOfType<UnitySimClock>();
+                    if (instance == null)
+                        throw new System.Exception("No UnitySimclock Instance found in scene");
+                }
+                return instance;
+            }
+        }
 
-        public double timeScale = 1;
+        private double timeScale = 1;
 
-        public bool simOn = false;
+        bool simOn = false;
         bool simStarted = false;
-        public bool pause;
+        bool simStopped = false;
+        bool simRestarted = false;
 
-        public bool simRestarted = false;
         float pastTime = 0.0f;
 
         public SimClock clock = new SimClock();
 
+        [Header("Events Scriptable Objects")]
+        [SerializeField] private SimEvents simEvents;
+
+        //Experimenter Mode
+        [SerializeField] bool ExperimenterOn = false;
+        [SerializeField] Experimenter experimenter;
+
         //Optional
-        public float maxTime = Mathf.Infinity;
+        [SerializeField] private float maxTime = 1000.0f;
 
-        public List<SElement> elements = new List<SElement>();
-        public List<UnityMultiLink> mLinks = new List<UnityMultiLink>();
+        private List<SElement> elements = new List<SElement>();
+        private List<UnityMultiLink> mLinks = new List<UnityMultiLink>();
 
-        Timer updateTime;
+
+        Timer timer;
+
+
+        #region Getters
+        public float MaxTime { get => maxTime; set => maxTime = value; }
+        public List<SElement> Elements { get => elements; set => elements = value; }
+        public List<UnityMultiLink> MLinks { get => mLinks; set => mLinks = value; }
+
+        public SimEvents SimEvents { get => this.simEvents; }
+        #endregion
+
+        #region Events Set Up
+        private void OnEnable()
+        {
+            UnitySimClock.Instance.SimEvents.OnSimStart += this.RestartSim;
+            UnitySimClock.Instance.SimEvents.OnSimStop += this.PauseSim;
+            UnitySimClock.Instance.SimEvents.OnSimResume += this.ResumeSim;
+            UnitySimClock.Instance.SimEvents.OnExperimentFinish += this.FinishSim;
+        }
+
+        private void OnDisable()
+        {
+            UnitySimClock.Instance.SimEvents.OnSimStart -= this.RestartSim;
+            UnitySimClock.Instance.SimEvents.OnSimStop -= this.PauseSim;
+            UnitySimClock.Instance.SimEvents.OnSimResume -= this.ResumeSim;
+            UnitySimClock.Instance.SimEvents.OnExperimentFinish -= this.FinishSim;
+        }
+        #endregion
 
         void Awake()
         {
@@ -46,22 +92,36 @@ namespace UnitySimuLean
 
         void Start()
         {
-            updateTime = new Timer();
-            simOn = true;
+            timer = new Timer();
+
+            if (ExperimenterOn && experimenter != null) {
+                UnitySimClock.Instance.SimEvents.OnExperimentStart.Invoke();
+            }
+            else
+            {
+                simOn = true;
+            }
         }
 
         void Update()
         {
-            if (simOn && !simRestarted)
+            if (simOn && !simRestarted &&!simStopped)
             {
                 if (simStarted)
                 {
-                    clock.AdvanceClock((Time.time - pastTime + Time.deltaTime) * timeScale);
+                    clock.AdvanceClock((Time.time - timer.PastTime + Time.deltaTime) * timeScale);
 
-                    if (Time.time - pastTime > maxTime)
+                    if (clock.GetSimulationTime() > maxTime)
                     {
-                        Debug.Log("Time is over");
-                        this.QuitGame();
+                        if (ExperimenterOn)
+                        {
+                            experimenter.NextScenario();
+                        }
+                        else
+                        {
+                            Debug.Log("Time is over");
+                            UnitySimClock.Instance.SimEvents.OnSimFinish.Invoke();
+                        }
                     }
                 }
                 else
@@ -84,51 +144,53 @@ namespace UnitySimuLean
                         theElem.StartSim();
                     }
 
-                    clock.AdvanceClock((Time.time - pastTime + Time.deltaTime) * timeScale);
+                    clock.AdvanceClock((Time.time - timer.PastTime + Time.deltaTime) * timeScale);
                     simStarted = true;
-
-                    clock.ScheduleEvent(updateTime, 0.1);
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
-                Application.Quit();
+                this.Quit();
         }
 
         /// <summary>
+        /// Switches Off Unity TimeScale
+        /// </summary>
+        public void PauseSim()
+        {
+            simStopped = true;
+        }        
+        
+        /// <summary>
         /// Switches Unity TimeScale
         /// </summary>
-        public void Pause()
+        public void ResumeSim()
         {
-            pause = !pause;
-
-            if (pause)
-            {
-                Time.timeScale = 0;
-            }
-            else
-            {
-                Time.timeScale = 1;
-            }
+            simStopped = false;
         }
+
 
         /// <summary>
         /// Resets and restarts Simulation
         /// </summary>
-        public void RestartSim()
+        public void RestartSim(float maxTime = 0)
         {
-            if (!simRestarted)
+            if (simStarted)
             {
                 this.ResetSim();
+                foreach (SElement theElem in elements)
+                {
+                    theElem.RestartSim();
+                }
+                StartCoroutine(this.BreatheSim());
             }
 
-            foreach (SElement theElem in elements)
-            {
-                theElem.RestartSim();
-            }
-
-            pastTime = Time.time;
+            simStarted = false;
             simRestarted = false;
+            simStopped = false;
+
+            this.maxTime = maxTime;
+            timer.OnRestart();
 
             simOn = !simOn;
         }
@@ -144,21 +206,41 @@ namespace UnitySimuLean
             clock.Reset();
         }
 
-        public float GetPastTime()
-        {
-            return pastTime;
+        public void FinishSim() {
+            simOn = false;
+            ExperimenterOn = false;
+            ResetSim();
         }
 
-        /// <summary>
-        /// Exits application
-        /// </summary>
-        public void QuitGame()
+        public void SetTimeScale(int timeScale = 1)
+        {
+            this.timeScale = timeScale;
+
+            if (timeScale <= 1)
+            {
+                Application.targetFrameRate = -1;
+            }
+            else
+            {
+                float factor = Mathf.Clamp(timeScale, 0, 600);
+                Application.targetFrameRate = (int)(60 / timeScale);
+            }
+
+        }
+
+        private IEnumerator BreatheSim()
+        {
+            yield return new WaitForSeconds(0.5f);
+            // Code to be executed after the delay
+        }
+
+        public void Quit()
         {
 #if UNITY_EDITOR
             Debug.Log("Quit Scene");
             UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
         }
     }

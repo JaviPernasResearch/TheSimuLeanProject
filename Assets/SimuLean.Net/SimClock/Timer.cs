@@ -1,16 +1,30 @@
-﻿using UnitySimuLean;
+﻿using UnityEngine;
+using UnitySimuLean;
 
-namespace SimuLean
+namespace UnitySimuLean
 {
     /// <summary>
-    /// Class to simulate a timer that executes an event every 0.1 seconds.
-    /// It may be used to show sim time in a more fluently mode when existing GUI.
+    /// Tracks simulation time
     /// </summary>
-    class Timer : Eventcs
+    internal class Timer
     {
-        void Eventcs.Execute()
+        float pastTime = 0;
+
+        public float PastTime { get => pastTime; set => pastTime = value; }
+
+        internal Timer()
         {
-            UnitySimClock.instance.clock.ScheduleEvent(this, 0.1);
+            pastTime = 0;
+        }
+           
+        public void OnRestart()
+        {
+            pastTime = Time.time;
+        }
+
+        public float GetSimTime()
+        {
+            return Time.fixedTime - pastTime;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            theSource = new InfiniteSource(name, UnitySimClock.instance.clock);
+            theSource = new InfiniteSource(name, UnitySimClock.Instance.clock);
             theSource.vElement = this;
 
         }
@@ -30,7 +30,7 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         override public Element GetElement()

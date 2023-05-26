@@ -18,7 +18,7 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.mLinks.Add(this);
+            UnitySimClock.Instance.MLinks.Add(this);
         }
 
         /// <summary>

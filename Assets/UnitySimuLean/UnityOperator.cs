@@ -32,7 +32,7 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         override public void InitializeSim()
@@ -44,7 +44,7 @@ namespace UnitySimuLean
 
             agent.isStopped = true;
 
-            theOperator = new Operator(name, UnitySimClock.instance.clock, capacity);
+            theOperator = new Operator(name, UnitySimClock.Instance.clock, capacity);
 
             theOperator.vElement = this;
         }

@@ -25,7 +25,7 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
 
             gItem = new List<GameObject>(requirements);
 
@@ -36,7 +36,7 @@ namespace UnitySimuLean
         {
             cycleTime = new PoissonProcess(cTime);
 
-            theAssembler = new Assembler(elementName, UnitySimClock.instance.clock, cycleTime, requirements);
+            theAssembler = new Assembler(elementName, UnitySimClock.Instance.clock, cycleTime, requirements);
 
             theAssembler.vElement = this;
         }

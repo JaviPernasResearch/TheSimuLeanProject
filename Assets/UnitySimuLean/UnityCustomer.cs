@@ -39,17 +39,17 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         void Update()
         {
             if (theCustomerSink != null && displayPending != null && displayStock != null)
             {
-                double deltaT = UnitySimClock.instance.clock.GetSimulationTime() - lastSimTime;
+                double deltaT = UnitySimClock.Instance.clock.GetSimulationTime() - lastSimTime;
                 if (deltaT > 0)
                 {
-                    lastSimTime = UnitySimClock.instance.clock.GetSimulationTime();
+                    lastSimTime = UnitySimClock.Instance.clock.GetSimulationTime();
                 }
 
                 displayPending.text = theCustomerSink.GetPendingOrders().ToString();
@@ -67,7 +67,7 @@ namespace UnitySimuLean
             if (capacityInputField != null)
                 capacity = int.Parse(capacityInputField.text);
 
-            theCustomerSink = new CustomerSink(capacity, name, UnitySimClock.instance.clock, MinQuantity, MaxQuantity);
+            theCustomerSink = new CustomerSink(capacity, name, UnitySimClock.Instance.clock, MinQuantity, MaxQuantity);
 
             theCustomerSink.vElement = this;
         }

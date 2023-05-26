@@ -34,7 +34,7 @@ namespace UnitySimuLean
         // Use this for initialization
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         // Update is called once per frame
@@ -68,7 +68,7 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            myMultiAssembler = new MultiAssembler(capacity, requirements, new PoissonProcess(meanDelay), name, UnitySimClock.instance.clock);
+            myMultiAssembler = new MultiAssembler(capacity, requirements, new PoissonProcess(meanDelay), name, UnitySimClock.Instance.clock);
 
             myMultiAssembler.vElement = this;
         }

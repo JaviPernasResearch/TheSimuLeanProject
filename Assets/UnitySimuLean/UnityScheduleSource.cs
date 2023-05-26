@@ -18,7 +18,7 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            theSource = new ScheduleSource(myName, UnitySimClock.instance.clock, fileName);
+            theSource = new ScheduleSource(myName, UnitySimClock.Instance.clock, fileName);
             theSource.vElement = this;
         }
         override public void StartSim()
@@ -29,7 +29,7 @@ namespace UnitySimuLean
         // Use this for initialization
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         // Update is called once per frame

@@ -30,7 +30,7 @@ namespace UnitySimuLean
         void Start()
         {
 
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         override public void InitializeSim()
@@ -41,7 +41,7 @@ namespace UnitySimuLean
                 cycleTime[i] = new PoissonProcess(cTime);
             }
 
-            theWorkstation = new MultiServer(cycleTime, elementName, UnitySimClock.instance.clock);
+            theWorkstation = new MultiServer(cycleTime, elementName, UnitySimClock.Instance.clock);
 
             theWorkstation.vElement = this;
             if (outItemPosition != null)

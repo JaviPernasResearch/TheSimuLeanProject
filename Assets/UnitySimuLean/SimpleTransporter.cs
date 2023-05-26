@@ -25,7 +25,7 @@ namespace UnitySimuLean
         void Start()
         {
             travelTime = new ConstantDouble[capacity];
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         override public void InitializeSim()
@@ -49,7 +49,7 @@ namespace UnitySimuLean
                 }
             }
 
-            theWorkstation = new MultiServer(travelTime, name, UnitySimClock.instance.clock);
+            theWorkstation = new MultiServer(travelTime, name, UnitySimClock.Instance.clock);
 
             theWorkstation.vElement = this;
         }

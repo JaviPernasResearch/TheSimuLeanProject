@@ -34,7 +34,7 @@ namespace UnitySimuLean
 
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         void Update()
@@ -66,7 +66,7 @@ namespace UnitySimuLean
             if (capacityInputField != null)
                 capacity = int.Parse(capacityInputField.text);
 
-            myGateQueue = new GateQueue(capacity, name, UnitySimClock.instance.clock);
+            myGateQueue = new GateQueue(capacity, name, UnitySimClock.Instance.clock);
 
             myGateQueue.vElement = this;
         }

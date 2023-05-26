@@ -12,15 +12,18 @@ namespace UnitySimuLean
 
         ItemsQueue theQueue;
 
-        public int capacity = 1;
+        private int capacity = 1;
 
         public float separation = 1f;
 
         public Transform itemPosition;
 
+        public int Capacity { get => capacity; set => capacity = value; }
+        public int Content { get => theQueue.GetQueueLength(); }
+
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
             if (itemPosition == null)
             {
                 itemPosition = transform;
@@ -29,7 +32,7 @@ namespace UnitySimuLean
 
         override public void InitializeSim()
         {
-            theQueue = new ItemsQueue(capacity, name, UnitySimClock.instance.clock);
+            theQueue = new ItemsQueue(capacity, name, UnitySimClock.Instance.clock);
 
             theQueue.vElement = this;
         }

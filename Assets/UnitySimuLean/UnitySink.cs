@@ -11,14 +11,17 @@ namespace UnitySimuLean
 
         Sink theSink;
 
+        public int Input { get => theSink.GetNumberIterms();  }
+
+
         void Start()
         {
-            UnitySimClock.instance.elements.Add(this);
+            UnitySimClock.Instance.Elements.Add(this);
         }
 
         override public void InitializeSim()
         {
-            theSink = new Sink(name, UnitySimClock.instance.clock);
+            theSink = new Sink(name, UnitySimClock.Instance.clock);
 
             theSink.vElement = this;
         }
